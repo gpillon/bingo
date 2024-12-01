@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BINGO_FRONTEND_IMAGE_NAME: ${{ github.repository }}-bingo-frontend
+  BINGO_FRONTEND_IMAGE_NAME: ${{ github.repository }}-bingo-fe
   BINGO_BE_IMAGE_NAME: ${{ github.repository }}-bingo-be
 
 jobs:
@@ -76,7 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: [bingo-frontend, bingo-be]
+        image: [bingo-fe, bingo-be]
     steps:
       - uses: actions/checkout@v3
 

@@ -311,8 +311,8 @@
       "projectFolder": "packages/bingo-be"
     },
     {
-      "packageName": "bingo-frontend",
-      "projectFolder": "packages/bingo-frontend"
+      "packageName": "bingo-fe",
+      "projectFolder": "packages/bingo-fe"
     }
     // {
     //   /**
