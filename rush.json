@@ -27,9 +27,9 @@
    * for details about these alternatives.
    */
   
-   "pnpmVersion": "8.15.8",
+   // "pnpmVersion": "8.15.8",
 
-  //"npmVersion": "6.14.15",
+  "npmVersion": "10.8.3",
   // "yarnVersion": "1.9.4",
 
   /**
