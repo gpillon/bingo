@@ -3,7 +3,7 @@ entries:
   bingo:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-12-01T20:58:38.707416634Z"
+    created: "2024-12-01T21:11:30.668342641Z"
     description: A Helm chart for Kubernetes
     digest: 0e36c120cd6addb441a97de9a3767449958341ae332a248905add68f47e5f10a
     name: bingo
@@ -11,4 +11,4 @@ entries:
     urls:
     - https://gpillon.github.io/bingo/bingo-0.1.10.tgz
     version: 0.1.10
-generated: "2024-12-01T20:58:38.706962466Z"
+generated: "2024-12-01T21:11:30.667911725Z"
