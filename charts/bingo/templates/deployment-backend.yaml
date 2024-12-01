@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bingo.fullname" . }}-backend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bingo.selectorLabels" . | nindent 6 }}
+      app: backend
+  template:
+    metadata:
+      labels:
+        {{- include "bingo.selectorLabels" . | nindent 8 }}
+        app: backend
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-backend
+          image: "{{ .Values.backend.repository }}:{{ .Values.backend.tag }}"
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: {{ include "bingo.fullname" . }}-backend-env
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: {{ include "bingo.fullname" . }}-backend-storage
+              mountPath: /app/db
+      volumes:
+        - name: {{ include "bingo.fullname" . }}-backend-storage
+          {{- if .Values.storage.persistance }}
+          persistentVolumeClaim:
+            claimName: {{ include "bingo.fullname" . }}-backend-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}

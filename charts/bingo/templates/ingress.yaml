@@ -1,0 +1,34 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "bingo.fullname" . }}
+  labels:
+    {{- include "bingo.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      sub_filter 'localhost:3000' '{{ (index .Values.ingress.hosts 0).host }}';
+      sub_filter_once off;
+      sub_filter_types *;
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  tls:
+    - hosts:
+        - {{ (index .Values.ingress.hosts 0).host }}
+      secretName: {{ include "bingo.fullname" . }}-tls
+  rules:
+    - host: {{ (index .Values.ingress.hosts 0).host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "bingo.fullname" . }}-frontend
+                port:
+                  number: {{ .Values.service.port }}
+{{- end }}

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bingo.fullname" . }}-frontend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bingo.selectorLabels" . | nindent 6 }}
+      app: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "bingo.selectorLabels" . | nindent 8 }}
+        app: frontend
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-frontend
+          image: "{{ .Values.frontend.repository }}:{{ .Values.frontend.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REACT_APP_SOCKET_HOST
+              value: {{ include "bingo.fullname" . }}-backend:3000
+            - name: REACT_BACKEND_SERVER_URL
+              value: http://{{ include "bingo.fullname" . }}-backend:3000
+              

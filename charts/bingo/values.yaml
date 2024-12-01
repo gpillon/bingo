@@ -1,0 +1,28 @@
+frontend:
+  repository: ghcr.io/gpillon/bingo-simulator-frontend
+  tag: latest
+  socketServerUrl: http://my-bingo-backend:3000
+
+backend:
+  repository: ghcr.io/gpillon/bingo-simulator-backend
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 8080
+
+storage:
+  persistance: true
+  size: 157286400 # 150Mi
+  # storageClass: standard
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: bingo.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []

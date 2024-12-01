@@ -1,0 +1,53 @@
+name: Update Helm Repository
+
+on:
+  push:
+    branches:
+      - main
+    # paths:
+    #   - 'charts/**'
+  workflow_dispatch:
+
+jobs:
+  update-helm-repo:
+    permissions:
+      contents: write
+      pages: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.12.1
+
+      - name: Package Helm chart
+        run: |
+          helm package charts/bingo
+
+      - name: Switch to gh-pages branch
+        run: |
+          git checkout gh-pages || git checkout --orphan gh-pages
+          git reset --hard
+          git pull origin gh-pages || true
+
+      - name: Update Helm repository index
+        run: |
+          # cp ../bingo-*.tgz .
+          helm repo index --url https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/ .
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "Update Helm repository" || echo "No changes to commit"
+          git push origin gh-pages
+
