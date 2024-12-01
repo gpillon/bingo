@@ -7,7 +7,7 @@ import { Game } from './entities/game.entity';
 import { User } from '../auth/user.entity';
 import { UsersModule } from '../auth/users.module';
 import { AuthModule } from '../auth/auth.module';
-import { CardModule } from 'src/card/card.module';
+import { CardModule } from '../card/card.module';
 
 @Module({
   imports: [

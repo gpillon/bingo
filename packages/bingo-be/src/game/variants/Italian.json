@@ -3,7 +3,7 @@
     "name": "Italian",
     "min": 1,
     "max": 90,
-    "cardNumbers": 25,
+    "cardNumbers": 15,
     "labels": {
       "1": "Uno",
       "2": "Due",

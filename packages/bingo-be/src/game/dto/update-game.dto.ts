@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import {
   IsOptional,
   IsString,
@@ -7,6 +7,9 @@ import {
   IsEnum,
 } from 'class-validator';
 import { IGameStatus } from '../game.types';
+import { ReadPriceDto } from '../../price/dto/read-price.dto';
+import { Type } from 'class-transformer';
+
 
 export class UpdateGameDto {
   @ApiProperty({ required: false })
@@ -21,27 +24,21 @@ export class UpdateGameDto {
   @IsNotEmpty()
   gameStatus?: IGameStatus;
 
-  @ApiProperty({ required: false })
-  @IsString()
+  @ApiProperty({ required: false, type: ReadPriceDto })
   @IsOptional()
   @IsNotEmpty()
-  model?: string;
+  @Type(() => ReadPriceDto)
+  cinquinaPrice?: Pick<ReadPriceDto, 'id'>;
 
-  @ApiProperty({ required: false })
-  @IsString()
+  @ApiProperty({ required: false, type: PickType(ReadPriceDto, ['id']) })
   @IsOptional()
   @IsNotEmpty()
-  type?: string;
+  @Type(() => ReadPriceDto)
+  bingoPrice?: Pick<ReadPriceDto, 'id'>;
 
-  @ApiProperty({ required: false })
-  @IsString()
+  @ApiProperty({ required: false, type: PickType(ReadPriceDto, ['id']) })
   @IsOptional()
   @IsNotEmpty()
-  plate?: string;
-
-  @ApiProperty({ required: false })
-  @IsNumber()
-  @IsOptional()
-  @IsNotEmpty()
-  year?: number;
+  @Type(() => ReadPriceDto)
+  miniBingoPrice?: Pick<ReadPriceDto, 'id'>;
 }

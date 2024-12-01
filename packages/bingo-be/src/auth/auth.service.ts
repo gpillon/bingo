@@ -42,7 +42,8 @@ export class AuthService {
       const payload = this.jwtService.verify(token);
       return this.usersService.findOneByUsername(payload.username);
     } catch (error) {
-      throw new UnauthorizedException(error.message);
+      // console.log(error);
+      return null;
     }
   }
 }

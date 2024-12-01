@@ -33,5 +33,7 @@ export class User {
   @OneToMany(() => Card, (card) => card.owner)
   cards?: Card[];
 
+  
+
   // Add other user properties as needed
 }

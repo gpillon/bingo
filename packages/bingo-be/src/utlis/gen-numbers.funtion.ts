@@ -9,7 +9,7 @@ export function GenerateExtractions(min: number, max: number) {
   }
 
   // Mischiamo casualmente l'array
-  for (let i = range.length - 1; i > 0; i--) {
+  for (let i = range.length - 1; i >= 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [range[i], range[j]] = [range[j], range[i]]; // Swap
   }

@@ -9,12 +9,14 @@ import {
   UseGuards,
   Req,
   SetMetadata,
+  BadRequestException,
 } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  ApiParam,
 } from '@nestjs/swagger';
 
 import { AuthGuard } from '@nestjs/passport';
@@ -27,6 +29,7 @@ import { GameGuard } from './game.guard';
 import { plainToInstance } from 'class-transformer';
 import { ReadGameDto } from './dto/read-game.dto';
 import { RolesGuard } from '../auth/roles.guard';
+import { GameIdDto } from './dto/game-id.dto';
 
 @ApiTags('Game')
 @Controller()
@@ -43,9 +46,11 @@ export class GameController {
     type: Game,
   })
   @SetMetadata('roles', ['admin'])
-  create(@Body() createGameDto: CreateGameDto) {
-    console.log(createGameDto);
-    return this.gameService.create(createGameDto);
+  async create(@Body() createGameDto: CreateGameDto) {
+    const game = await this.gameService.create(createGameDto);
+    return plainToInstance(ReadGameDto, game, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Post(':id/extract')
@@ -55,10 +60,13 @@ export class GameController {
     description: 'The game has been successfully created.',
     type: Game,
   })
+  @ApiParam({ name: 'id', type: Number })
   @SetMetadata('roles', ['admin'])
   async extract(@Param('id') id: string) {
     const game = await this.gameService.extract(+id);
-    return plainToInstance(ReadGameDto, game);
+    return plainToInstance(ReadGameDto, game, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Get()
@@ -74,20 +82,25 @@ export class GameController {
     const user = req.user;
     if (user.role !== 'admin') userFilter = user.id;
     const games = await this.gameService.findAll(userFilter);
-    return plainToInstance(ReadGameDto, games);
+    return plainToInstance(ReadGameDto, games, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Get(':id')
   @UseGuards(GameGuard)
   @ApiOperation({ summary: 'Get a game by id' })
+  @ApiParam({ name: 'id', type: Number })
   @ApiResponse({
     status: 200,
     description: 'Return the game.',
     type: Game,
   })
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: GameIdDto['id']) {
     const game = await this.gameService.findOne(+id);
-    return plainToInstance(ReadGameDto, game);
+    return plainToInstance(ReadGameDto, game, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Patch(':id')
@@ -97,18 +110,23 @@ export class GameController {
     description: 'The game has been successfully updated.',
     type: Game,
   })
+  @ApiParam({ name: 'id', type: Number })
   async update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
     const game = await this.gameService.update(+id, updateGameDto);
-    return plainToInstance(ReadGameDto, game);
+    return plainToInstance(ReadGameDto, game, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a game' })
+  @ApiParam({ name: 'id', type: Number })
   @ApiResponse({
     status: 200,
     description: 'The game has been successfully deleted.',
   })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: GameIdDto['id']) {
+    if (Number.isNaN(+id)) throw new BadRequestException('Invalid game id');
     return this.gameService.remove(+id);
   }
 }

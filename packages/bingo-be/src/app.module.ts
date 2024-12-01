@@ -11,11 +11,16 @@ import { RouterModule } from '@nestjs/core';
 import { UsersModule } from './auth/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConstantsModule } from './constants/constants.module';
+import { PriceModule } from './price/price.module';
+import { Price } from './price/entities/price.entity';
 
 @Module({
   imports: [
     GameModule,
     CardModule,
+    ConstantsModule,
+    PriceModule,
     RouterModule.register([
       {
         path: 'api',
@@ -32,17 +37,25 @@ import { AppService } from './app.service';
             path: 'users',
             module: UsersModule,
           },
+          {
+            path: 'prices',
+            module: PriceModule,
+          },
+          {
+            path: 'constants',
+            module: ConstantsModule,
+          },
         ],
       },
     ]),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db/database.sqlite',
-      entities: [Game, Card, User],
+      entities: [Game, Card, User, Price],
       synchronize: true,
     }),
     AuthModule,
-    TypeOrmModule.forFeature([Game, Card]),
+    TypeOrmModule.forFeature([Game, Card, Price]),
     PassportModule,
   ],
   controllers: [AppController],

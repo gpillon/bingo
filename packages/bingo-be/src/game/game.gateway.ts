@@ -55,23 +55,28 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleDisconnect(client: Socket) {
     // Cleanup if needed
-    client.leave(`user_${client.data.user.id}`);
-    console.log(`Client disconnected: ${client.id}`);
+    try {
+      client.leave(`user_${client.data.user.id}`);
+      console.log(`Client disconnected: ${client.id}`);
+    } catch (error) {
+      console.error('error leaving user room', client.data.user); 
+    }
   }
 
   emitGameUpdate(game: Game) {
-    this.server.to(`user_${game.owner.id}`).emit('gameUpdate', game);
+    const gameToEmit = plainToInstance(ReadGameDto, game);
+    this.server.to(`user_${game.owner.id}`).emit('gameUpdate', gameToEmit);
     game.allowedUsers?.forEach((user) => {
-      const gameToEmit = plainToInstance(ReadGameDto, game);
       this.server.to(`user_${user.id}`).emit('gameUpdate', gameToEmit);
     });
   }
 
-  emitGameDeleted(gameId: number, game: Game) {
+  emitGameDeleted(gameId: number, game: ReadGameDto) {
     // Notify owner and all allowed users about the deletion
+    const gameToEmit = plainToInstance(ReadGameDto, game);
     this.server.to(`user_${game.owner.id}`).emit('gameDeleted', gameId);
     game.allowedUsers?.forEach((user) => {
-      this.server.to(`user_${user.id}`).emit('gameDeleted', gameId);
+      this.server.to(`user_${user.id}`).emit('gameDeleted', gameToEmit);
     });
   }
 
@@ -90,6 +95,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.server.to(`user_${user.id}`).emit('extraction', game);
     });
 
-    return game;
+    return plainToInstance(ReadGameDto, game);
   }
 }

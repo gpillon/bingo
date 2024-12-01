@@ -9,11 +9,14 @@ import {
   AfterLoad,
   BeforeInsert,
   BeforeUpdate,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Card } from '../../card/entities/card.entity';
 import { IGameStatus, IGameVariant, VARIANTS } from '../game.types';
 import { User } from '../../auth/user.entity';
 import { GenerateExtractions } from '../../utlis/gen-numbers.funtion';
+import { Price } from '../../price/entities/price.entity';
 
 const DEFAULT_VARIANT = IGameVariant.NAPOLETANA;
 
@@ -37,11 +40,26 @@ export class Game {
   @Column({ default: '', nullable: true })
   image: string;
 
-  @Column({ default: '', nullable: true })
-  prize: string;
+  @ManyToOne(() => Price, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'cinquinaPriceId' })
+  cinquinaPrice: Price | null = null;
 
-  @Column({ default: '', nullable: true })
-  prizeImage: string;
+  @ManyToOne(() => Price, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'bingoPriceId' })
+  bingoPrice: Price | null = null;
+
+  @ManyToOne(() => Price, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'miniBingoPriceId' })
+  miniBingoPrice: Price | null = null;
 
   @Column({ default: DEFAULT_VARIANT })
   variant: IGameVariant;
@@ -54,6 +72,36 @@ export class Game {
 
   @Column({ default: '', nullable: true })
   startTs: string;
+
+  @OneToOne(() => Card, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'cinquinaCardId' })
+  cinquinaCard: Card | null = null;
+
+  @Column({ default: null, nullable: true })
+  cinquinaNumber: number;
+
+  @OneToOne(() => Card, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'bingoCardId' })
+  bingoCard: Card | null = null;
+
+  @Column({ default: null, nullable: true })
+  bingoNumber: number;
+
+  @OneToOne(() => Card, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'miniBingoCardId' })
+  miniBingoCard: Card | null = null;
+
+  @Column({ default: null, nullable: true })
+  miniBingoNumber: number;
 
   @Column({ default: '', nullable: true })
   endTs: string;
@@ -71,7 +119,10 @@ export class Game {
   @JoinTable()
   allowedUsers: User[];
 
-  @OneToMany(() => Card, (card) => card.game)
+  @OneToMany(() => Card, (card) => card.game, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   cards: Card[];
 
   extractedNumbers: number[];
