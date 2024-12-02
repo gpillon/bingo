@@ -15,6 +15,7 @@ This isn't just any Tombola - it's a modern, cloud-native Tombola that runs on O
 - [ ] User Profile page (pass change, etc...)
 - [ ] enhance responsiveness
 - [ ] add translations with i18next
+- [ ] Optimize CI/CD pipeline on frontend, building the ReactAPP only 1 time both for amd64 and arm64
 
 ## ✨ Features
 
