@@ -41,8 +41,8 @@ helm install bingo-chart bingo/bingo
 ```ascii
 +---------------+ +---------------+ +---------------+
 |               | |               | |               |
-|   Frontend    -->   Backend     --> | Database    |
-|  (React.js)   | |  (Node.js)    | |  (PostgreSQL) |
+|   Frontend    -->   Backend     -->   Database    |
+|  (React.js)   | |  (Node.js)    | |   (SQLite)    |
 |               | |               | |               |
 +---------------+ +---------------+ +---------------+
 ^                                                   ^
