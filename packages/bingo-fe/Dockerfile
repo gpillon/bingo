@@ -11,7 +11,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy built assets from builder stage
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 ENV REACT_BACKEND_SERVER_URL=http://backend:3000
 
