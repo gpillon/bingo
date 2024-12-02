@@ -21,7 +21,6 @@ import { SetMetadata } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
-  ApiResponse,
   ApiBearerAuth,
   ApiConsumes,
   ApiBody,
@@ -32,6 +31,7 @@ import { CreatePriceDto } from './dto/create-price.dto';
 import { ReadPriceDto } from './dto/read-price.dto';
 import { plainToInstance } from 'class-transformer';
 import { UpdatePriceDto } from './dto/update-price.dto';
+import 'multer';
 
 @ApiTags('Prices')
 @Controller()
