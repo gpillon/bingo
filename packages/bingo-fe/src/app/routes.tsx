@@ -7,8 +7,8 @@ import { GameList } from '@app/Games/GameList';
 import { GameView } from '@app/Games/GameView';
 import { UserManagement } from '@app/Admin/Users/UserManagement';
 import { PriceManagement } from './Admin/Prices/PriceManagement';
+import { About } from './About/About';
 
-let routeFocusTimer: number;
 export interface IAppRoute {
   label?: string; // Excluding the label will exclude the route from the nav sidebar in AppLayout
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -91,6 +91,14 @@ const routes: AppRouteConfig[] = [
       },
     ],
   },
+  //about page
+  {
+    component: About,
+    exact: true,
+    path: '/about',
+    label: 'About',
+    title: 'Bingo | About',
+  }
 
 ];
 

@@ -1,10 +1,10 @@
 frontend:
-  repository: ghcr.io/gpillon/bingo-simulator-frontend
+  repository: ghcr.io/gpillon/bingo-simulator-bingo-fe
   tag: latest
   socketServerUrl: http://my-bingo-backend:3000
 
 backend:
-  repository: ghcr.io/gpillon/bingo-simulator-backend
+  repository: ghcr.io/gpillon/bingo-simulator-bingo-be
   tag: latest
 
 service:
