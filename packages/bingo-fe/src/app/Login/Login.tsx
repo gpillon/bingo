@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import {
-  LoginPage,
-  LoginForm,
+  Button,
   ListItem,
   ListVariant,
   LoginFooterItem,
+  LoginForm,
   LoginMainFooterBandItem,
   LoginMainFooterLinksItem,
-  Button
+  LoginPage
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { useAuthStore } from '../store/authState';
+// import iconf from '@app/assets/images/1055811.png';
 // Import social media icons if needed
 import {
-  GoogleIcon,
-  GithubIcon,
   DropboxIcon,
   FacebookSquareIcon,
-  GitlabIcon
+  GithubIcon,
+  GitlabIcon,
+  GoogleIcon
 } from '@patternfly/react-icons';
 
 const Login: React.FC = () => {
@@ -142,17 +143,17 @@ const Login: React.FC = () => {
   return (
     <LoginPage
       footerListVariants={ListVariant.inline}
-      // brandImgSrc={brandImg2}
-      brandImgAlt="PatternFly logo"
-      backgroundImgSrc="/assets/images/pfbg-icon.svg"
+      //brandImgSrc={iconf}
+      //brandImgAlt="PatternFly logo"
+      //backgroundImgSrc={iconf}
       footerListItems={listItem}
-      textContent="This is placeholder text only. Use this area to place any information or introductory message about your application that may be relevant to users."
+      textContent="Welcome to our Tombola game! Join the fun and excitement of this classic number-drawing game. Log in to create or join games, buy your cards, and compete with other players. May luck be on your side!"
       loginTitle="Log in to your account"
       loginSubtitle="Enter your single sign-on LDAP credentials."
-      socialMediaLoginContent={socialMediaLoginContent}
-      socialMediaLoginAriaLabel="Log in with social media"
-      signUpForAccountMessage={signUpForAccountMessage}
-      forgotCredentials={forgotCredentials}
+      // socialMediaLoginContent={socialMediaLoginContent}
+      // socialMediaLoginAriaLabel="Log in with social media"
+      // signUpForAccountMessage={signUpForAccountMessage}
+      // forgotCredentials={forgotCredentials}
     >
       {loginForm}
     </LoginPage>

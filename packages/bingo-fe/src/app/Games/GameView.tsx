@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
+  Bullseye,
   PageSection,
-  Title,
   Stack,
   StackItem,
-  Bullseye,
-  Button,
-  ButtonVariant,
-  Flex,
-  FlexItem,
+  Title,
 } from '@patternfly/react-core';
 import { useGameStore } from '../store/gameState';
 import { useCardStore } from '../store/cardState';
@@ -17,10 +13,8 @@ import { useHasRole } from '../store/authState';
 import { GameHeader } from './components/GameHeader';
 import { GameNumbers } from './components/GameNumbers';
 import { PlayerCards } from './components/PlayerCards';
-import { WinnerSection } from './components/WinnerSection';
 import { IGameStatus } from '../store/gameState';
 import { EditGameModal } from './EditGameModal';
-import { GiftIcon } from '@patternfly/react-icons';
 
 export const GameView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,13 +22,6 @@ export const GameView: React.FC = () => {
   const { userCards, allUserCards, fetchUserCards, fetchAllUserCards, buyCard } = useCardStore();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const isAdmin = useHasRole('admin');
-  const [isPriceModalOpen, setIsPriceModalOpen] = useState(false);
-  const [selectedPrice, setSelectedPrice] = useState<{
-    id: number;
-    name: string;
-    description?: string;
-    hasImage?: boolean;
-  } | null>(null);
 
   const handleStatusChange = useCallback(async (newStatus: IGameStatus) => {
     if (!currentGame?.id) return;
@@ -139,12 +126,6 @@ export const GameView: React.FC = () => {
           />
         </StackItem>
       ))}
-
-      {currentGame.gameStatus === 'Closed' && (
-        <StackItem>
-          <WinnerSection game={currentGame} />
-        </StackItem>
-      )}
 
       {currentGame && (
         <EditGameModal
