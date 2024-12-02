@@ -9,6 +9,7 @@ metadata:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    nginx.ingress.kubernetes.io/proxy-body-size: "2048m"
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
     nginx.ingress.kubernetes.io/configuration-snippet: |
       sub_filter 'localhost:3000' '{{ (index .Values.ingress.hosts 0).host }}';

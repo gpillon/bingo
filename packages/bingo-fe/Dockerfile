@@ -18,6 +18,7 @@ ENV REACT_BACKEND_SERVER_URL=http://backend:3000
 # Create nginx configuration
 RUN echo 'server { \
     listen 8080; \
+    client_max_body_size 5M; \
     server_name localhost; \
     root /usr/share/nginx/html; \
     index index.html; \
