@@ -3,7 +3,7 @@ entries:
   bingo:
   - apiVersion: v2
     appVersion: 1.17.1
-    created: "2024-12-02T02:23:26.945153766Z"
+    created: "2024-12-02T12:32:14.756697625Z"
     description: A Helm chart for the GPS Tombola
     digest: affb91d7ca5d96cc367600c5f40ad85d2d5d5443e55c4e41e8c22e3f5411e3a2
     name: bingo
@@ -13,7 +13,7 @@ entries:
     version: 0.1.13
   - apiVersion: v2
     appVersion: 1.17.1
-    created: "2024-12-02T02:23:26.94488283Z"
+    created: "2024-12-02T12:32:14.756434515Z"
     description: A Helm chart for the GPS Tombola
     digest: c494111c628e7dee5911681347c9973e1bc5cc86469701adb3c7c3f9ceca3cfa
     name: bingo
@@ -23,7 +23,7 @@ entries:
     version: 0.1.12
   - apiVersion: v2
     appVersion: 1.17.0
-    created: "2024-12-02T02:23:26.944595303Z"
+    created: "2024-12-02T12:32:14.756139595Z"
     description: A Helm chart for the GPS Tombola
     digest: cb5df97220e3370d01970bc704289fdcfe92ec9efb5c0e36fd8705f770519d97
     name: bingo
@@ -33,7 +33,7 @@ entries:
     version: 0.1.11
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-12-02T02:23:26.944307486Z"
+    created: "2024-12-02T12:32:14.755866556Z"
     description: A Helm chart for Kubernetes
     digest: 0e36c120cd6addb441a97de9a3767449958341ae332a248905add68f47e5f10a
     name: bingo
@@ -41,4 +41,4 @@ entries:
     urls:
     - https://gpillon.github.io/bingo/bingo-0.1.10.tgz
     version: 0.1.10
-generated: "2024-12-02T02:23:26.943815517Z"
+generated: "2024-12-02T12:32:14.755397521Z"
