@@ -1,8 +1,8 @@
 # 🎲 GPS Tombola - Because Regular Bingo Wasn't Italian Enough! 🎄
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
-[![License](https://img.shields.io/badge/license-MIT-blue)]()
-[![Pasta Level](https://img.shields.io/badge/pasta%20level-al%20dente-orange)]()
+[![Build Status](https://img.shields.io/badge/build-passing_🫡-brightgreen)]()
+[![License](https://img.shields.io/badge/license-GNU_GPL3-blue)]()
+[![Pasta Level](https://img.shields.io/badge/pasta%20level-al%20dente_🍝-orange)]()
 
 ## 🎯 What's This All About?
 
