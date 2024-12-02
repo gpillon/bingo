@@ -48,7 +48,9 @@ export class GameService {
       createGameDto.owner = { id: 1 };
     }
     const game = this.gameRepository.create(createGameDto) as unknown as Game;
-    return this.gameRepository.save(game);
+    await this.gameRepository.save(game);
+    this.gameGateway.emitGameAdded(game);
+    return game;
   }
 
   async findAll(userFilter?: number): Promise<Game[]> {
@@ -200,12 +202,8 @@ export class GameService {
         updates.cinquinaNumber = cinquina.numberLength;
       }
     }
-    console.log('updates', updates);
 
     const bingo = this.checkBingo(strippedCards, game.extractions);
-    // console.log('game.extractions', game.extractions);
-    // console.log('strippedCards', strippedCards.map((card) => card.numbers));
-    // console.log('bingo', bingo);
     if (bingo === false) {
       return false;
     } else if (bingo !== true) {

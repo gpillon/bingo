@@ -52,6 +52,10 @@ export class WebSocketService {
       useGameStore.getState().updateGame(game);
     });
 
+    this.socket.on('gameAdded', (game) => {
+      useGameStore.getState().addGameToStore(game);
+    });
+
     this.socket.on('gameDeleted', (gameId) => {
       useGameStore.getState().deleteGameFromStore(gameId);
     });

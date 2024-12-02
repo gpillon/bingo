@@ -19,6 +19,8 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Grid,
+  GridItem,
 } from '@patternfly/react-core';
 import {
   ClockIcon,
@@ -75,11 +77,16 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
 
   return (
     <PageSection variant="default" padding={{ default: 'padding' }}>
-      <Split hasGutter>
-        <SplitItem isFilled>
-          <Stack hasGutter>
-            <StackItem>
-              <Flex direction={{ default: 'row' }} spaceItems={{ default: 'spaceItemsMd' }}>
+      <Stack hasGutter>
+        {/* Header with Title and Admin Controls */}
+        <StackItem>
+          <Split hasGutter>
+            <SplitItem isFilled>
+              <Flex
+                direction={{ default: 'column', md: 'row' }}
+                spaceItems={{ default: 'spaceItemsMd' }}
+                alignItems={{ default: 'alignItemsCenter', md: 'alignItemsBaseline' }}
+              >
                 <FlexItem>
                   <Title headingLevel="h1">
                     {game.name ? `${game.name} (#${game.id})` : `Game #${game.id}`}
@@ -94,187 +101,191 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
                   </Label>
                 </FlexItem>
               </Flex>
-            </StackItem>
+            </SplitItem>
 
-            {game.description && (
-              <StackItem>
-                <p>{game.description}</p>
-              </StackItem>
-            )}
-
-            <StackItem>
-              <Flex direction={{ default: 'column' }} spaceItems={{ default: 'spaceItemsSm' }}>
-                <FlexItem>
-                  <ClockIcon /> Created: {new Date(game.createTs).toLocaleString()}
-                </FlexItem>
-                {game.startTs && (
+            {isAdmin && (
+              <SplitItem>
+                <Flex>
                   <FlexItem>
-                    <ClockIcon /> Started: {new Date(game.startTs).toLocaleString()}
-                  </FlexItem>
-                )}
-              </Flex>
-            </StackItem>
-
-            {/* Winners and Prizes Row */}
-            <StackItem>
-              <Split hasGutter>
-                {/* Winners Section - Always visible */}
-                <SplitItem style={{ flex: '1 1 50%', minWidth: '250px' }}>
-                  <Card>
-                    <CardBody>
-                      <Stack hasGutter>
-                        <StackItem>
-                          <Title headingLevel="h3" size="md">
-                            <TrophyIcon /> Winners
-                          </Title>
-                        </StackItem>
-                        {game.cinquinaCard && (
-                          <StackItem>
-                            <Flex>
-                              <FlexItem>Cinquina:</FlexItem>
-                              <FlexItem>
-                                <Label color="grey" isCompact>{game.cinquinaCard.owner?.name || 'Unknown'}</Label>
-                                {game.cinquinaNumber && <> at number {game.cinquinaNumber}</>}
-                              </FlexItem>
-                            </Flex>
-                          </StackItem>
-                        )}
-                        {game.bingoCard && (
-                          <StackItem>
-                            <Flex>
-                              <FlexItem>Bingo:</FlexItem>
-                              <FlexItem>
-                                <Label color="yellow" isCompact>{game.bingoCard.owner?.name || 'Unknown'}</Label>
-                                {game.bingoNumber && <> at number {game.bingoNumber}</>}
-                              </FlexItem>
-                            </Flex>
-                          </StackItem>
-                        )}
-                        {game.miniBingoCard && (
-                          <StackItem>
-                            <Flex>
-                              <FlexItem>Mini Bingo:</FlexItem>
-                              <FlexItem>
-                                <Label color="green" isCompact>{game.miniBingoCard.owner?.name || 'Unknown'}</Label>
-                                {game.miniBingoNumber && <> at number {game.miniBingoNumber}</>}
-                              </FlexItem>
-                            </Flex>
-                          </StackItem>
-                        )}
-                        {!game.cinquinaCard && !game.bingoCard && !game.miniBingoCard && (
-                          <StackItem>No winners yet</StackItem>
-                        )}
-                      </Stack>
-                    </CardBody>
-                  </Card>
-                </SplitItem>
-
-                {/* Prizes Section - Only visible when there are prizes */}
-                {renderPrizes().length > 0 && (
-                  <SplitItem style={{ flex: '1 1 50%', minWidth: '250px' }}>
-                    <Card>
-                      <CardBody>
-                        <Stack hasGutter>
-                          <StackItem>
-                            <Title headingLevel="h3" size="md">
-                              <GiftIcon /> Prizes
-                            </Title>
-                          </StackItem>
-                          {renderPrizes().map((prize) => (
-                            <StackItem key={`${prize.type}-${prize.id}`}>
-                              <Flex>
-                                <FlexItem>{prize.type}:</FlexItem>
-                                <FlexItem>
-                                  <Button
-                                    variant="link"
-                                    isInline
-                                    onClick={() => setSelectedPrice(prize)}
-                                    style={{
-                                      color: 'blue',
-                                      textDecoration: 'none',
-                                      borderBottom: '1px dashed var(--pf-v5-global--link--Color)'
-                                    }}
-                                  >
-                                    {prize.name}
-                                  </Button>
-                                </FlexItem>
-                              </Flex>
-                            </StackItem>
-                          ))}
-                        </Stack>
-                      </CardBody>
-                    </Card>
-                  </SplitItem>
-                )}
-              </Split>
-            </StackItem>
-          </Stack>
-        </SplitItem>
-
-        {/* Admin Controls - Right Column */}
-        <SplitItem>
-          {isAdmin && (
-            <Toolbar>
-              <ToolbarContent>
-                <ToolbarItem>
-                  <Button
-                    variant="secondary"
-                    icon={<EditIcon />}
-                    onClick={onEditClick}
-                  >
-                    Edit
-                  </Button>
-                </ToolbarItem>
-                <ToolbarItem>
-                  {game.gameStatus === 'Created' && (
                     <Button
-                      variant="primary"
-                      icon={<PlayIcon />}
-                      onClick={() => onStatusChange(IGameStatus.RUNNING)}
+                      variant="secondary"
+                      icon={<EditIcon />}
+                      onClick={onEditClick}
                     >
-                      Start Game
+                      Edit
                     </Button>
-                  )}
-                  {game.gameStatus === 'Running' && (
-                    <>
+                  </FlexItem>
+                  <FlexItem>
+                    {game.gameStatus === 'Created' && (
                       <Button
                         variant="primary"
-                        icon={<StopIcon />}
-                        onClick={() => onStatusChange(IGameStatus.CLOSED)}
+                        icon={<PlayIcon />}
+                        onClick={() => onStatusChange(IGameStatus.RUNNING)}
                       >
-                        End Game
+                        Start Game
                       </Button>
+                    )}
+                    {game.gameStatus === 'Running' && (
+                      <Flex spaceItems={{ default: 'spaceItemsSm' }}>
+                        <FlexItem>
+                          <Button
+                            variant="primary"
+                            icon={<StopIcon />}
+                            onClick={() => onStatusChange(IGameStatus.CLOSED)}
+                          >
+                            End Game
+                          </Button>
+                        </FlexItem>
+                        <FlexItem>
+                          <Button
+                            variant="secondary"
+                            onClick={onExtractNumber}
+                            isDisabled={game.extractedNumbers.length === 90}
+                          >
+                            Extract Number
+                          </Button>
+                        </FlexItem>
+                        <FlexItem>
+                          <Button
+                            variant="danger"
+                            icon={<WarningTriangleIcon />}
+                            onClick={() => setIsResetModalOpen(true)}
+                          >
+                            Reset Game
+                          </Button>
+                        </FlexItem>
+                      </Flex>
+                    )}
+                    {game.gameStatus === 'Closed' && (
                       <Button
-                        variant="secondary"
-                        onClick={onExtractNumber}
-                        isDisabled={game.extractedNumbers.length === 90}
+                        variant="warning"
+                        icon={<RedoIcon />}
+                        onClick={() => onStatusChange(IGameStatus.RUNNING)}
                       >
-                        Extract Number
+                        Reopen Game
                       </Button>
-                      <Button
-                        variant="danger"
-                        icon={<WarningTriangleIcon />}
-                        onClick={() => setIsResetModalOpen(true)}
-                      >
-                        Reset Game
-                      </Button>
-                    </>
-                  )}
-                  {game.gameStatus === 'Closed' && (
-                    <Button
-                      variant="warning"
-                      icon={<RedoIcon />}
-                      onClick={() => onStatusChange(IGameStatus.RUNNING)}
-                    >
-                      Reopen Game
-                    </Button>
-                  )}
-                </ToolbarItem>
-              </ToolbarContent>
-            </Toolbar>
-          )}
-        </SplitItem>
-      </Split>
+                    )}
+                  </FlexItem>
+                </Flex>
+              </SplitItem>
+            )}
+          </Split>
+        </StackItem>
+
+        {game.description && (
+          <StackItem>
+            <p>{game.description}</p>
+          </StackItem>
+        )}
+
+        <StackItem>
+          <Flex
+            direction={{ default: 'column', md: 'row' }}
+            spaceItems={{ default: 'spaceItemsSm' }}
+          >
+            <FlexItem>
+              <ClockIcon /> Created: {new Date(game.createTs).toLocaleString()}
+            </FlexItem>
+            {game.startTs && (
+              <FlexItem>
+                <ClockIcon /> Started: {new Date(game.startTs).toLocaleString()}
+              </FlexItem>
+            )}
+          </Flex>
+        </StackItem>
+
+        {/* Winners and Prizes Grid */}
+        <StackItem>
+          <Grid hasGutter>
+            <GridItem span={12} xl={6}>
+              <Card>
+                <CardBody>
+                  <Stack hasGutter>
+                    <StackItem>
+                      <Title headingLevel="h3" size="md">
+                        <TrophyIcon /> Winners
+                      </Title>
+                    </StackItem>
+                    {game.cinquinaCard && (
+                      <StackItem>
+                        <Flex>
+                          <FlexItem>Cinquina:</FlexItem>
+                          <FlexItem>
+                            <Label color="grey" isCompact>{game.cinquinaCard.owner?.name || 'Unknown'}</Label>
+                            {game.cinquinaNumber && <> at number {game.cinquinaNumber}</>}
+                          </FlexItem>
+                        </Flex>
+                      </StackItem>
+                    )}
+                    {game.bingoCard && (
+                      <StackItem>
+                        <Flex>
+                          <FlexItem>Bingo:</FlexItem>
+                          <FlexItem>
+                            <Label color="yellow" isCompact>{game.bingoCard.owner?.name || 'Unknown'}</Label>
+                            {game.bingoNumber && <> at number {game.bingoNumber}</>}
+                          </FlexItem>
+                        </Flex>
+                      </StackItem>
+                    )}
+                    {game.miniBingoCard && (
+                      <StackItem>
+                        <Flex>
+                          <FlexItem>Mini Bingo:</FlexItem>
+                          <FlexItem>
+                            <Label color="green" isCompact>{game.miniBingoCard.owner?.name || 'Unknown'}</Label>
+                            {game.miniBingoNumber && <> at number {game.miniBingoNumber}</>}
+                          </FlexItem>
+                        </Flex>
+                      </StackItem>
+                    )}
+                    {!game.cinquinaCard && !game.bingoCard && !game.miniBingoCard && (
+                      <StackItem>No winners yet</StackItem>
+                    )}
+                  </Stack>
+                </CardBody>
+              </Card>
+            </GridItem>
+
+            {renderPrizes().length > 0 && (
+              <GridItem span={12} xl={6}>
+                <Card>
+                  <CardBody>
+                    <Stack hasGutter>
+                      <StackItem>
+                        <Title headingLevel="h3" size="md">
+                          <GiftIcon /> Prizes
+                        </Title>
+                      </StackItem>
+                      {renderPrizes().map((prize) => (
+                        <StackItem key={`${prize.type}-${prize.id}`}>
+                          <Flex>
+                            <FlexItem>{prize.type}:</FlexItem>
+                            <FlexItem>
+                              <Button
+                                variant="link"
+                                isInline
+                                onClick={() => setSelectedPrice(prize)}
+                                style={{
+                                  color: 'blue',
+                                  textDecoration: 'none',
+                                  borderBottom: '1px dashed var(--pf-v5-global--link--Color)'
+                                }}
+                              >
+                                {prize.name}
+                              </Button>
+                            </FlexItem>
+                          </Flex>
+                        </StackItem>
+                      ))}
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            )}
+          </Grid>
+        </StackItem>
+      </Stack>
 
       {/* Reset Confirmation Modal */}
       <Modal

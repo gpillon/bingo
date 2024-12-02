@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { config } from '../config'; 
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -87,5 +88,14 @@ export class UsersService {
     return this.usersRepository.delete(id);
   }
 
+  async getProfile(id: number) {
+    return this.findOne(id);
+  }
+
+  async updateProfile(id: number, user: UpdateUserDto) {
+    Reflect.deleteProperty(user, 'role');
+    await this.update(id, user);
+    return this.getProfile(id);
+  }
   // Add methods for creating users, etc.
 }

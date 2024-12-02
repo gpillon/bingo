@@ -80,6 +80,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
+  emitGameAdded(game: Game) {
+    const gameToEmit = plainToInstance(ReadGameDto, game);
+    this.server.to(`user_${game.owner.id}`).emit('gameAdded', gameToEmit);
+    game.allowedUsers?.forEach((user) => {
+      this.server.to(`user_${user.id}`).emit('gameAdded', gameToEmit);
+    });
+  }
+
   @SubscribeMessage('extract')
   async handleExtraction(
     @ConnectedSocket() client: Socket,

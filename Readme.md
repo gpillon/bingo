@@ -13,8 +13,8 @@ This isn't just any Tombola - it's a modern, cloud-native Tombola that runs on O
 ## 🚧 Todos
 
 - [ ] User Profile page (pass change, etc...)
-- [ ] enhance responsiveness
-- [ ] add translations with i18next
+- [ ] Enhance responsiveness
+- [ ] Add translations with i18next
 - [ ] Optimize CI/CD pipeline on frontend, building the ReactAPP only 1 time both for amd64 and arm64
 
 ## ✨ Features
@@ -60,6 +60,32 @@ helm install bingo-chart bingo/bingo
 ## 👥 The Dream Team
 
 Created with ❤️ (and lots of caffè) by Me. We're the folks who thought: "Hey, let's modernize a centuries-old game because... why not?"
+
+## 🧑‍💻 Developer Guide
+
+*TL;DR:* To start the project, run `npm run start:dev` in both `packages/bingo-be` and `packages/bingo-fe` folders.
+
+when running the backend yu can use the `seed` script to populate the database with some data with the following commands:
+
+```bash
+npm run seed
+```
+
+To run the frontend, use the following command:
+
+```bash
+npm run start:dev
+```
+
+To run the backend without needing to copy the admin password from the terminal at every start, use the following command:
+
+```bash
+export ADMIN_PASS=<admin password> && export JWT_SECRET=<jwt secret> && npm run start:dev
+```
+
+with the following environment variables:
+- ADMIN_PASS: the password for the admin user (you can choose any string)
+- JWT_SECRET: the secret for the JWT token (you can choose any string or generate one with `openssl rand -base64 32`)
 
 ## 🤝 Contributing
 

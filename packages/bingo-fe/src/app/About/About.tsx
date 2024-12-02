@@ -58,7 +58,7 @@ export const About: React.FC = () => {
         </GridItem>
 
         {/* Features Section */}
-        <GridItem span={6}>
+        <GridItem xl={6} md={12}>
           <Card>
             <CardHeader>
               <CardTitle>
@@ -81,7 +81,7 @@ export const About: React.FC = () => {
         </GridItem>
 
         {/* Technical Details */}
-        <GridItem span={6}>
+        <GridItem xl={6} md={12}>
           <Card>
             <CardHeader>
               <CardTitle>
@@ -116,7 +116,7 @@ export const About: React.FC = () => {
         </GridItem>
 
         {/* Team Section */}
-        <GridItem span={12}>
+        <GridItem xl={12} md={12}>
           <Card>
             <CardHeader>
               <CardTitle>

@@ -8,6 +8,7 @@ import { GameView } from '@app/Games/GameView';
 import { UserManagement } from '@app/Admin/Users/UserManagement';
 import { PriceManagement } from './Admin/Prices/PriceManagement';
 import { About } from './About/About';
+import { Profile } from './Profile/Profile';
 
 export interface IAppRoute {
   label?: string; // Excluding the label will exclude the route from the nav sidebar in AppLayout
@@ -98,6 +99,11 @@ const routes: AppRouteConfig[] = [
     path: '/about',
     label: 'About',
     title: 'Bingo | About',
+  },
+  {
+    component: Profile,
+    path: '/profile',
+    title: 'Bingo | Profile',
   }
 
 ];

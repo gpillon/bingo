@@ -10,6 +10,7 @@ interface AuthState {
   email: string | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
+  updateProfile: (data: { name: string; email: string }) => Promise<void>;
 }
 
 // Helper function to decode JWT token
@@ -88,6 +89,32 @@ export const useAuthStore = create<AuthState>((set) => {
         isAuthenticated: false,
         userRole: null,
       });
+    },
+
+    updateProfile: async (data) => {
+      try {
+        const response = await fetch('/api/users/me', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Failed to update profile');
+        }
+
+        const updatedUser = await response.json();
+        set({
+          name: updatedUser.name,
+          email: updatedUser.email,
+        });
+      } catch (error) {
+        throw error;
+      }
     },
   };
 });

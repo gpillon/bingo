@@ -29,6 +29,7 @@ import { RolesGuard } from './roles.guard';
 import { SetMetadata } from '@nestjs/common';
 import { UserLoginDto } from './dto/user-login.dto';
 import { ReadUserDto } from './dto/read-user.dto';
+import { ReadUserMeDto } from './dto/read-user-me.dto';
 
 @Controller()
 @ApiTags('Users')
@@ -50,7 +51,9 @@ export class UserController {
   })
   findAll() {
     const users = this.usersService.findAll();
-    const returnUsers = plainToInstance(ReadUserDto, users);
+    const returnUsers = plainToInstance(ReadUserDto, users, {
+      excludeExtraneousValues: true,
+    });
     return returnUsers;
   }
 
@@ -64,7 +67,8 @@ export class UserController {
   })
   @ApiBody({ type: UserLoginDto })
   async login(@Req() req) {
-    return this.authService.login(req.user);
+    const user = this.authService.login(req.user);
+    return user;
   }
 
   @Post()
@@ -80,7 +84,43 @@ export class UserController {
   @ApiBody({ type: CreateUserDto })
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
-    const returnUser = plainToInstance(User, user);
+    const returnUser = plainToInstance(ReadUserDto, user, {
+      excludeExtraneousValues: true,
+    });
+    return returnUser;
+  }
+
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @SetMetadata('roles', ['admin', 'user'])
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get the current user profile' })
+  @ApiResponse({
+    status: 200,
+    description: 'User profile retrieved successfully.',
+  })
+  async getProfile(@Req() req) {
+    const user = await this.usersService.getProfile(req.user.id);
+    const returnUser = plainToInstance(ReadUserMeDto, user, {
+      excludeExtraneousValues: true,
+    });
+    return returnUser;
+  }
+
+  @Patch('me')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @SetMetadata('roles', ['admin', 'user'])
+  @ApiOperation({ summary: 'Update the current user profile' })
+  @ApiBody({ type: UpdateUserDto })
+  async updateProfile(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+    const user = await this.usersService.updateProfile(
+      req.user.id,
+      updateUserDto,
+    );
+    const returnUser = plainToInstance(ReadUserMeDto, user, {
+      excludeExtraneousValues: true,
+    });
     return returnUser;
   }
 
@@ -98,7 +138,9 @@ export class UserController {
   @ApiBody({ type: UpdateUserDto })
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const user = await this.usersService.update(+id, updateUserDto);
-    const returnUser = plainToInstance(User, user);
+    const returnUser = plainToInstance(ReadUserDto, user, {
+      excludeExtraneousValues: true,
+    });
     return returnUser;
   }
 
@@ -113,6 +155,10 @@ export class UserController {
     description: 'User deleted successfully.',
   })
   async delete(@Param('id') id: string) {
-    await this.usersService.delete(+id);
+    const user = await this.usersService.delete(+id);
+    const returnUser = plainToInstance(ReadUserDto, user, {
+      excludeExtraneousValues: true,
+    });
+    return returnUser;
   }
 }

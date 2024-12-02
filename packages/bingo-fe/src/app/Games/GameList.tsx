@@ -145,7 +145,7 @@ const GameList: React.FC = () => {
                   }}>
                     <div style={{ flex: 1 }}>
                       <p><strong>Variant:</strong> {game.variant}</p>
-                      {game.description && <p><strong>Description:</strong> {game.description}</p>}
+                      <p><strong>Description:</strong> {game.description || 'No description'}</p>
                       <p><strong>Max Cards:</strong> {game.maxCards}</p>
                       <p>
                         <strong>Players:</strong>{' '}
@@ -164,9 +164,8 @@ const GameList: React.FC = () => {
                       </p>
 
                       <p><strong>Owner:</strong> {game.owner?.name}</p>
-
-                      <p><strong>Started:</strong> {game.startTs ? new Date(game.startTs).toLocaleString() : 'Not started'}</p>
                       <p><strong>Created:</strong> {game.createTs ? new Date(game.createTs).toLocaleString() : 'Not created'}</p>
+                      <p><strong>Started:</strong> {game.startTs ? new Date(game.startTs).toLocaleString() : 'Not started'}</p>
                       <p><strong>Closed:</strong> {game.endTs ? new Date(game.endTs).toLocaleString() : 'Not closed'}</p>
                     </div>
 

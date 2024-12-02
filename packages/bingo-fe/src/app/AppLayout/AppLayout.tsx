@@ -8,6 +8,7 @@ import {
   MastheadLogo,
   MastheadMain,
   MastheadToggle,
+  MenuToggle,
   Nav,
   NavExpandable,
   NavItem,
@@ -15,13 +16,16 @@ import {
   Page,
   PageSidebar,
   PageSidebarBody,
+  Select,
+  SelectList,
+  SelectOption,
   SkipToContent,
   Toolbar,
   ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
 import { IAppRoute, IAppRouteGroup, routes } from '@app/routes';
-import { BarsIcon } from '@patternfly/react-icons';
+import { BarsIcon, MoonIcon, SunIcon } from '@patternfly/react-icons';
 import { useAuthStore } from '@app/store/authState';
 
 interface IAppLayout {
@@ -37,24 +41,84 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     history.push('/login');
   };
 
+  const handleGoProfile = () => {
+    history.push('/profile');
+  };
+
   const userName = useAuthStore((state) => state.name);
 
+  const [isOpen, setIsOpen] = React.useState(false);
+  const menuRef = React.useRef<HTMLDivElement>();
+
+  const onToggleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const [isDarkTheme, setIsDarkTheme] = React.useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  React.useEffect(() => {
+    const html = document.documentElement;
+    if (isDarkTheme) {
+      html.classList.add('pf-v6-theme-dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      html.classList.remove('pf-v6-theme-dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkTheme]);
+
   const headerTools = (
-    <Toolbar>
+    <Toolbar style={{ marginRight: '20px', marginLeft: 'auto', width: 'auto' }}>
       <ToolbarGroup>
         <ToolbarItem>
-          {userName && <span>{userName}</span>}
-          <Button variant="link" onClick={handleLogout}>
-            Logout
+          <Button
+            variant="plain"
+            onClick={() => setIsDarkTheme(!isDarkTheme)}
+            aria-label="Toggle theme"
+          >
+            {isDarkTheme ? <SunIcon /> : <MoonIcon />}
           </Button>
+        </ToolbarItem>
+        <ToolbarItem>
+          <Select
+            isOpen={isOpen}
+            onOpenChange={(isOpen) => setIsOpen(isOpen)}
+            toggle={(toggleRef) => (
+              <MenuToggle
+                ref={toggleRef}
+                onClick={onToggleClick}
+                isExpanded={isOpen}
+                //icon={<Avatar src={imgAvatar} alt="avatar" />}
+              >
+                {userName || 'User'}
+              </MenuToggle>
+            )}
+            ref={menuRef}
+          >
+            <SelectList>
+              <SelectOption value="profile" onClick={handleGoProfile}>Profile</SelectOption>
+              <SelectOption value="logout" onClick={handleLogout}>Logout</SelectOption>
+            </SelectList>
+          </Select>
         </ToolbarItem>
       </ToolbarGroup>
     </Toolbar>
   );
 
-  const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  const [sidebarOpen, setSidebarOpen] = React.useState(() => {
+    return window.innerWidth >= 1200;
+  });
+
+  const handleNavigationClick = () => {
+    if (window.innerWidth < 1200) {
+      setSidebarOpen(false);
+    }
+  };
+
   const masthead = (
-    <Masthead>
+    <Masthead >
       <MastheadMain>
         <MastheadToggle>
           <Button
@@ -111,7 +175,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
           </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
-      <MastheadContent>
+      <MastheadContent style={{ marginLeft: 'auto' }}>
         {headerTools}
       </MastheadContent>
     </Masthead>
@@ -139,10 +203,9 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   );
 
   const Navigation = (
-    <Nav id="nav-primary-simple">
+    <Nav id="nav-primary-simple" onClick={handleNavigationClick}>
       <NavList id="nav-list-simple">
         {routes.map((route, idx) => {
-          // Skip admin routes for non-admin users; this is a temporary solution
           if (route.label?.startsWith('Admin') && userRole !== 'admin') {
             return null;
           }
@@ -172,6 +235,16 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
       Skip to Content
     </SkipToContent>
   );
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setSidebarOpen(window.innerWidth >= 1200);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <Page
       mainContainerId={pageId}

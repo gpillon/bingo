@@ -24,6 +24,7 @@ interface GameState {
   createGame: (gameData: CreateGamePayload) => Promise<void>;
   editGame: (id: string, gameData: Partial<CreateGamePayload>) => Promise<void>;
   deleteGameFromStore: (id: string) => void;
+  addGameToStore: (game: Game) => void;
 }
 
 // Add this interface to match backend expectations
@@ -126,8 +127,8 @@ export const useGameStore = create<GameState>((set) => ({
     set({ loading: true, error: null });
     try {
       set((state) => ({ games: state.games.filter(game => game.id !== id), loading: false }));
-    } catch (error : any) {
-      set({ error: error.message, loading: false });
+    } catch (error : unknown) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
   setGames: (games) => set({ games }),
@@ -249,10 +250,12 @@ export const useGameStore = create<GameState>((set) => ({
       }
 
       const newGame = await response.json();
-      set((state) => ({
-        games: [...state.games, newGame],
-        loading: false
-      }));
+
+      // set((state) => ({
+      //   games: [...state.games, newGame],
+      //   loading: false
+      // }));
+      set({ loading: false });
       return newGame;
     } catch (error: unknown) {
       set({ error: (error as Error).message, loading: false });
@@ -270,11 +273,6 @@ export const useGameStore = create<GameState>((set) => ({
         bingoPrice: gameData.bingoPrice?.id ? { id: gameData.bingoPrice.id } : null,
         miniBingoPrice: gameData.miniBingoPrice?.id ? { id: gameData.miniBingoPrice.id } : null,
       };
-
-      // Remove the old price ID fields
-      delete (payload as any).cinquinaPriceId;
-      delete (payload as any).bingoPriceId;
-      delete (payload as any).miniBingoPriceId;
 
       const response = await fetch(`/api/games/${id}`, {
         method: 'PATCH',
@@ -296,9 +294,15 @@ export const useGameStore = create<GameState>((set) => ({
         loading: false
       }));
       return updatedGame;
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
+  addGameToStore: (game: Game) => {
+    const games = [...useGameStore.getState().games];
+    if (!games.find(g => g.id === game.id)) {
+      set((state) => ({ games: [...state.games, game] }));
+    }
+  }
 }));

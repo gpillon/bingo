@@ -46,14 +46,14 @@ const Dashboard: React.FC = () => {
 
   return (
     <PageSection>
-      <Grid hasGutter>
+      <Grid hasGutter >
         {/* Header Stats */}
         <GridItem span={12}>
           <Title headingLevel="h1" size="2xl">Dashboard</Title>
         </GridItem>
 
         {/* Quick Stats Cards */}
-        <GridItem span={3}>
+        <GridItem xl={3} md={12}>
           <Card>
             <CardTitle>Active Games</CardTitle>
             <CardBody>
@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
           </Card>
         </GridItem>
 
-        <GridItem span={3}>
+        <GridItem xl={3} md={12}>
           <Card>
             <CardTitle>Total Games</CardTitle>
             <CardBody>
@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
           </Card>
         </GridItem>
 
-        <GridItem span={3}>
+        <GridItem xl={3} md={12}>
           <Card>
             <CardTitle>Cards</CardTitle>
             <CardBody>
@@ -101,7 +101,7 @@ const Dashboard: React.FC = () => {
           </Card>
         </GridItem>
 
-        <GridItem span={3}>
+        <GridItem xl={3} md={12}>
           <Card>
             <CardTitle>Win Rate</CardTitle>
             <CardBody>
@@ -120,7 +120,7 @@ const Dashboard: React.FC = () => {
         </GridItem>
 
         {/* Charts Section */}
-        <GridItem span={3}>
+        <GridItem xl={3} md={12}>
           <Card>
             <CardTitle>Games Distribution</CardTitle>
             <CardBody>
@@ -141,6 +141,7 @@ const Dashboard: React.FC = () => {
                 ]}
                 legendPosition="bottom"
                 legendAllowWrap={true}
+                animate={true}
                 padding={{
                   bottom: 0,
                   left: 20,
@@ -157,7 +158,7 @@ const Dashboard: React.FC = () => {
         </GridItem>
 
         {/* Recent Games */}
-        <GridItem span={9}>
+        <GridItem xl={9} md={12}>
           <Card>
             <CardTitle>Recent Games</CardTitle>
             <CardBody>
