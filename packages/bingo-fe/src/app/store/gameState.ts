@@ -147,8 +147,8 @@ export const useGameStore = create<GameState>((set) => ({
       if (!response.ok) throw new Error('Failed to fetch games');
       const games = await response.json();
       set({ games, loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
   fetchGame: async (id) => {
@@ -160,8 +160,8 @@ export const useGameStore = create<GameState>((set) => ({
       if (!response.ok) throw new Error('Failed to fetch game');
       const game = await response.json();
       set({ currentGame: game, loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
   updateGameStatus: async (id, status) => {
@@ -177,8 +177,8 @@ export const useGameStore = create<GameState>((set) => ({
         games: state.games.map(game => game.id === id ? updatedGame : game),
         currentGame: state.currentGame?.id === id ? updatedGame : state.currentGame
       }));
-    } catch (error) {
-      set({ error: error.message });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message });
     }
   },
   extractNumber: async (id: string) => {
@@ -187,8 +187,8 @@ export const useGameStore = create<GameState>((set) => ({
         throw new Error('WebSocket not initialized');
       }
       wsService.emitExtraction(id);
-    } catch (error) {
-      set({ error: error.message });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message });
     }
   },
   wsConnected: false,
@@ -223,8 +223,8 @@ export const useGameStore = create<GameState>((set) => ({
         games: state.games.filter(game => game.id !== id),
         currentGame: state.currentGame?.id === id ? null : state.currentGame
       }));
-    } catch (error) {
-      set({ error: error.message });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message });
       throw error;
     }
   },
@@ -254,8 +254,8 @@ export const useGameStore = create<GameState>((set) => ({
         loading: false
       }));
       return newGame;
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },

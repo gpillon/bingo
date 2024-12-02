@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, LinkProps, useHistory, useLocation } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -182,8 +182,7 @@ const GameList: React.FC = () => {
                       <Button
                         variant="secondary"
                         icon={<PlayIcon />}
-                        component={Link}
-                        to={`/games/${game.id}`}
+                        component={(props: LinkProps) => <Link {...props} to={`/games/${game.id}`} />}
                       >
                         Join Game
                       </Button>

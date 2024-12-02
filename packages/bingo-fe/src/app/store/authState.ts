@@ -47,40 +47,36 @@ export const useAuthStore = create<AuthState>((set) => {
     email: token ? decodeJWT(token)?.email : null,
 
     login: async (username: string, password: string) => {
-      try {
-        const response = await fetch('/api/users/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        });
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-        if (!response.ok) {
-          throw new Error('Invalid credentials');
-        }
-
-        const data = await response.json();
-        const token = data.access_token;
-        localStorage.setItem('token', token);
-
-        const decodedToken = decodeJWT(token);
-        const userRole = decodedToken?.role || null;
-
-        set({
-          token,
-          isAuthenticated: true,
-          userRole,
-          userName: decodedToken?.username || null,
-          name: decodedToken?.name || null,
-          email: decodedToken?.email || null,
-        });
-
-        // Connect WebSocket after successful login
-        useGameStore.getState().connectWebSocket();
-      } catch (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Invalid credentials');
       }
+
+      const data = await response.json();
+      const token = data.access_token;
+      localStorage.setItem('token', token);
+
+      const decodedToken = decodeJWT(token);
+      const userRole = decodedToken?.role || null;
+
+      set({
+        token,
+        isAuthenticated: true,
+        userRole,
+        userName: decodedToken?.username || null,
+        name: decodedToken?.name || null,
+        email: decodedToken?.email || null,
+      });
+
+      // Connect WebSocket after successful login
+      useGameStore.getState().connectWebSocket();
     },
 
     logout: () => {

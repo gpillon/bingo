@@ -56,7 +56,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
   const renderPrizes = () => {
-    const prizes = [];
+    const prizes: { type: string; id: number; name: string; description?: string; hasImage?: boolean }[] = [];
     if (game.cinquinaPrice) {
       prizes.push({ type: 'Cinquina', ...game.cinquinaPrice });
     }
@@ -74,7 +74,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
   };
 
   return (
-    <PageSection variant="light" padding={{ default: 'padding' }}>
+    <PageSection variant="default" padding={{ default: 'padding' }}>
       <Split hasGutter>
         <SplitItem isFilled>
           <Stack hasGutter>
@@ -120,7 +120,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
               <Split hasGutter>
                 {/* Winners Section - Always visible */}
                 <SplitItem style={{ flex: '1 1 50%', minWidth: '250px' }}>
-                  <Card isFlat>
+                  <Card>
                     <CardBody>
                       <Stack hasGutter>
                         <StackItem>
@@ -172,7 +172,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
                 {/* Prizes Section - Only visible when there are prizes */}
                 {renderPrizes().length > 0 && (
                   <SplitItem style={{ flex: '1 1 50%', minWidth: '250px' }}>
-                    <Card isFlat>
+                    <Card>
                       <CardBody>
                         <Stack hasGutter>
                           <StackItem>

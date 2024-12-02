@@ -1,13 +1,13 @@
 import React, { memo } from 'react';
 import {
+  Button,
   Card,
   CardBody,
   Grid,
   GridItem,
-  Button,
+  Label,
   Split,
   SplitItem,
-  Label,
 } from '@patternfly/react-core';
 import { BingoCard as IBingoCard } from '../../store/cardState';
 import { Game } from '../../store/gameState';
@@ -59,7 +59,7 @@ export const BingoCard = memo<BingoCardProps>(({ card, game }) => {
           padding: '8px'
         }}>
           {card.numbers.map((row, rowIndex) => (
-            row.map((num, colIndex) => (
+            row.map((num: string | number | boolean | React.ReactElement<unknown> | Iterable<React.ReactNode> | null | undefined, colIndex: number) => (
               <GridItem
                 key={`${rowIndex}-${colIndex}`}
                 style={{
@@ -70,7 +70,7 @@ export const BingoCard = memo<BingoCardProps>(({ card, game }) => {
               >
                 {num !== null && (
                   <Button
-                    variant={game.extractedNumbers.includes(num) ? "primary" : "control"}
+                    variant={game.extractedNumbers.includes(num as number) ? "primary" : "control"}
                     isBlock
                     style={{
                       width: '100%',
@@ -94,3 +94,5 @@ export const BingoCard = memo<BingoCardProps>(({ card, game }) => {
     </Card>
   );
 }, areEqual);
+
+BingoCard.displayName = 'BingoCard';

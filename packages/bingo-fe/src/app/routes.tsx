@@ -5,11 +5,7 @@ import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { Dashboard } from '@app/Dashboard/Dashboard';
 import { GameList } from '@app/Games/GameList';
 import { GameView } from '@app/Games/GameView';
-import { MyCards } from '@app/Cards/MyCards';
-import { AdminDashboard } from '@app/Admin/AdminDashboard';
-import { Login } from '@patternfly/react-core';
 import { UserManagement } from '@app/Admin/Users/UserManagement';
-import { CreateUserModal } from './Admin/Users/CreateUserModal';
 import { PriceManagement } from './Admin/Prices/PriceManagement';
 
 let routeFocusTimer: number;
@@ -71,14 +67,6 @@ const routes: AppRouteConfig[] = [
     label: 'Admin',
     routes: [
       {
-        component: AdminDashboard,
-        exact: true,
-        label: 'Dashboard',
-        path: '/admin',
-        title: 'Bingo | Admin Dashboard',
-        requiresAdmin: true,
-      },
-      {
         component: UserManagement,
         exact: true,
         label: 'Users',
@@ -96,9 +84,9 @@ const routes: AppRouteConfig[] = [
       {
         component: PriceManagement,
         exact: true,
-        label: 'Price Management',
+        label: 'Prize Management',
         path: '/admin/prices',
-        title: 'Price Management',
+        title: 'Bingo | Prize Management',
         requiresAdmin: true,
       },
     ],

@@ -13,11 +13,12 @@ import {
   EmptyStateBody,
   Spinner,
 } from '@patternfly/react-core';
-import { PlusCircleIcon, UsersIcon } from '@patternfly/react-icons';
+import { PlusCircleIcon, UsersIcon, UploadIcon } from '@patternfly/react-icons';
 import { UserTable } from './UserTable';
 import { CreateUserModal } from './CreateUserModal';
 import { EditUserModal } from './EditUserModal';
 import { useUserStore, User } from '../../store/userState';
+import { ImportUsersModal } from './ImportUsersModal';
 
 export const UserManagement: React.FC = () => {
   const history = useHistory();
@@ -25,6 +26,7 @@ export const UserManagement: React.FC = () => {
   const { users, fetchUsers } = useUserStore();
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const isCreateModalOpen = location.pathname === '/admin/users/new';
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -58,7 +60,15 @@ export const UserManagement: React.FC = () => {
               User Management
             </Title>
           </ToolbarItem>
-          <ToolbarItem align={{ default: 'alignRight' }}>
+          <ToolbarItem align={{ default: 'alignEnd' }}>
+            <Button
+              variant="secondary"
+              icon={<UploadIcon />}
+              onClick={() => setIsImportModalOpen(true)}
+              style={{ marginRight: '16px' }}
+            >
+              Import Users
+            </Button>
             <Button
               variant="primary"
               icon={<PlusCircleIcon />}
@@ -99,6 +109,13 @@ export const UserManagement: React.FC = () => {
           isOpen={true}
           user={editingUser}
           onClose={() => setEditingUser(null)}
+        />
+      )}
+
+      {isImportModalOpen && (
+        <ImportUsersModal
+          isOpen={true}
+          onClose={() => setIsImportModalOpen(false)}
         />
       )}
     </PageSection>

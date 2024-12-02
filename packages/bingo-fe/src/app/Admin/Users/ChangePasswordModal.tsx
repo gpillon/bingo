@@ -1,20 +1,20 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
+  Alert,
+  Button,
+  Form,
+  FormGroup,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Button,
-  Alert,
-  Form,
-  FormGroup,
-  TextInput,
-  HelperText,
-  HelperTextItem,
-  FormHelperText
+  TextInput
 } from '@patternfly/react-core';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import { useUserStore, User } from '../../store/userState';
+import { User, useUserStore } from '../../store/userState';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -74,7 +74,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen
       position="top"
       disableFocusTrap={false}
     >
-      <ModalHeader title={`Change Password: ${user.username}`} id="change-password-modal-title" />
+      <ModalHeader title={`Change Password: ${user.username}`} />
       <ModalBody id="change-password-modal-body">
         {error && (
           <Alert variant="danger" title="Error changing password" isInline>

@@ -52,7 +52,7 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ isOpen, onClose, u
       position="top"
       disableFocusTrap={false}
     >
-      <ModalHeader title={`Edit User: ${user.username}`} id="edit-user-modal-title" />
+      <ModalHeader title={`Edit User: ${user.username}`} />
       <ModalBody id="edit-user-modal-body">
         {error && (
           <Alert variant="danger" title="Error updating user" isInline>

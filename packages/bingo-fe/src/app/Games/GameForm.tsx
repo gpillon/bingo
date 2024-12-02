@@ -154,7 +154,7 @@ export const GameForm: React.FC<GameFormProps> = ({
     return price ? price.name : 'No Prize';
   };
 
-  const userToggle = (toggleRef: React.Ref<any>) => (
+  const userToggle = (toggleRef: React.RefObject<HTMLButtonElement>) => (
     <MenuToggle
       variant="typeahead"
       aria-label="Select users"
@@ -187,7 +187,7 @@ export const GameForm: React.FC<GameFormProps> = ({
     </MenuToggle>
   );
 
-  const variantToggle = (toggleRef: React.Ref<any>) => (
+  const variantToggle = (toggleRef: React.RefObject<HTMLButtonElement>) => (
     <MenuToggle
       ref={toggleRef}
       onClick={() => setIsVariantSelectOpen(!isVariantSelectOpen)}
@@ -298,7 +298,7 @@ export const GameForm: React.FC<GameFormProps> = ({
               }
             }}
             onChange={(event) => {
-              const value = Math.min(99, Math.max(1, Number(event.target.value)));
+              const value = Math.min(99, Math.max(1, Number(event.target)));
               setFormData({ ...formData, maxCards: value });
               setValidationErrors({ ...validationErrors, maxCards: '' });
             }}

@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  PageSection,
-  Title,
-  Toolbar,
-  ToolbarContent,
-  ToolbarItem,
   Button,
   Flex,
   FlexItem,
+  PageSection,
+  Title,
 } from '@patternfly/react-core';
 import { PriceTable } from './PriceTable';
 import { CreatePriceModal } from './CreatePriceModal';
 import { EditPriceModal } from './EditPriceModal';
-import { usePriceStore, Price } from '../../store/priceState';
+import { Price, usePriceStore } from '../../store/priceState';
 
 export const PriceManagement: React.FC = () => {
   const { prices, fetchPrices } = usePriceStore();
@@ -41,7 +38,7 @@ export const PriceManagement: React.FC = () => {
     <PageSection>
       <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
         <FlexItem>
-          <Title headingLevel="h1">Price Management</Title>
+          <Title headingLevel="h1">Prize Management</Title>
         </FlexItem>
         <FlexItem>
           <Button
@@ -56,6 +53,7 @@ export const PriceManagement: React.FC = () => {
       <PriceTable
         prices={prices}
         onEditPrice={handleEditPrice}
+        onCreatePrice={handleCreatePrice}
       />
 
       <CreatePriceModal

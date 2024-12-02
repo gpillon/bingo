@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button, ButtonVariant, Flex, FlexItem } from '@patternfly/react-core';
 import { GiftIcon } from '@patternfly/react-icons';
 import { PriceModal } from './PriceModal';
-import { Game } from '../store/gameState';
+import { Price } from '../../store/priceState';
+import { Game } from '../../store/gameState';
 
 interface PricesListProps {
   game: Game;
@@ -16,7 +17,7 @@ export const PricesList: React.FC<PricesListProps> = ({ game }) => {
     hasImage?: boolean;
   } | null>(null);
 
-  const prices = [];
+  const prices: (Partial<Price> & { type: string })[] = [];
   if (game.cinquinaPrice) {
     prices.push({ type: 'Cinquina', ...game.cinquinaPrice });
   }
@@ -39,7 +40,7 @@ export const PricesList: React.FC<PricesListProps> = ({ game }) => {
             <Button
               variant={ButtonVariant.link}
               icon={<GiftIcon />}
-              onClick={() => setSelectedPrice(price)}
+              onClick={() => setSelectedPrice(price as Price)}
             >
               {price.type}: {price.name}
             </Button>

@@ -1,18 +1,19 @@
 import React from 'react';
 import {
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
   Button,
+  DropEvent,
   FileUpload,
   FileUploadHelperText,
+  FileUploadProps,
   Form,
   FormGroup,
   HelperText,
   HelperTextItem,
   Icon,
-  DropEvent
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader
 } from '@patternfly/react-core';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import { usePriceStore } from '../../store/priceState';
@@ -53,11 +54,11 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
     reader.readAsDataURL(file);
   };
 
-  const handleDataChange = (_event: DropEvent, value: string) => {
+  const handleDataChange: FileUploadProps['onDataChange'] = (_, value) => {
     setValue(value);
   };
 
-  const handleClear = (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClear: FileUploadProps['onClearClick'] = () => {
     setFilename('');
     setValue('');
     setIsRejected(false);
@@ -71,11 +72,11 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
     setSelectedFile(null);
   };
 
-  const handleFileReadStarted = (_event: DropEvent, _fileHandle: File) => {
+  const handleFileReadStarted: FileUploadProps['onReadStarted'] = () => {
     setIsLoading(true);
   };
 
-  const handleFileReadFinished = (_event: DropEvent, _fileHandle: File) => {
+  const handleFileReadFinished: FileUploadProps['onReadFinished'] = () => {
     setIsLoading(false);
   };
 
@@ -117,11 +118,11 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
           <FormGroup fieldId="image-upload">
             <FileUpload
               id="image-upload"
-              type="text"
+              type="dataURL"
               value={value}
               filename={filename}
               filenamePlaceholder="Drag and drop an image or upload one"
-              onFileInputChange={handleFileInputChange}
+              onFileInputChange={(event: DropEvent, file: File) => handleFileInputChange(event as React.ChangeEvent<HTMLInputElement>, file)}
               onDataChange={handleDataChange}
               onReadStarted={handleFileReadStarted}
               onReadFinished={handleFileReadFinished}

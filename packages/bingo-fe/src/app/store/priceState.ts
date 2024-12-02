@@ -4,8 +4,10 @@ import { useAuthStore } from './authState';
 export interface Price {
   id: number;
   name: string;
+
   description: string;
   hasImage?: boolean;
+  imageUrl?: string;
 }
 
 interface PriceState {
@@ -57,8 +59,8 @@ export const usePriceStore = create<PriceState>((set) => ({
       }));
 
       set({ prices: pricesWithImages, loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: error instanceof Error ? error.message : 'Unknown error', loading: false });
     }
   },
 
@@ -79,8 +81,8 @@ export const usePriceStore = create<PriceState>((set) => ({
         loading: false
       }));
       return newPrice;
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
@@ -108,8 +110,8 @@ export const usePriceStore = create<PriceState>((set) => ({
         ),
         loading: false
       }));
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
@@ -137,8 +139,8 @@ export const usePriceStore = create<PriceState>((set) => ({
         ),
         loading: false
       }));
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
@@ -157,8 +159,8 @@ export const usePriceStore = create<PriceState>((set) => ({
         prices: state.prices.filter(price => price.id !== id),
         loading: false
       }));
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
@@ -181,8 +183,8 @@ export const usePriceStore = create<PriceState>((set) => ({
         ),
         loading: false
       }));
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   }

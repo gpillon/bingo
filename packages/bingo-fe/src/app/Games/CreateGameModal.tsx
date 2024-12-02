@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   Modal,
   ModalBody,
   ModalHeader,
   ModalVariant,
-  Alert,
 } from '@patternfly/react-core';
 import { useGameStore } from '../store/gameState';
 import { GameForm, GameFormData } from './GameForm';
@@ -23,8 +23,8 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({ isOpen, onClos
       setError(null);
       await createGame(formData);
       onClose();
-    } catch (error) {
-      setError(error.message);
+    } catch (error: unknown) {
+      setError((error as Error).message);
       console.error('Error creating game:', error);
     }
   };

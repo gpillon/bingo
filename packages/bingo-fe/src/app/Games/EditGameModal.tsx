@@ -25,8 +25,8 @@ export const EditGameModal: React.FC<EditGameModalProps> = ({ isOpen, onClose, g
       setError(null);
       await editGame(game.id, formData);
       onClose();
-    } catch (error) {
-      setError(error.message);
+    } catch (error: unknown) {
+      setError((error as Error).message);
       console.error('Error editing game:', error);
     }
   };
@@ -39,7 +39,7 @@ export const EditGameModal: React.FC<EditGameModalProps> = ({ isOpen, onClose, g
       aria-labelledby="edit-game-modal-title"
       aria-describedby="edit-game-modal-body"
     >
-      <ModalHeader id="edit-game-modal-title" title="Edit Game" />
+      <ModalHeader title="Edit Game" />
       <ModalBody id="edit-game-modal-body">
         {error && (
           <Alert

@@ -1,24 +1,25 @@
 import React from 'react';
 import {
+  Button,
   Card,
   CardBody,
   CardTitle,
   Gallery,
   GalleryItem,
-  Button,
   Split,
   SplitItem,
 } from '@patternfly/react-core';
 import {
-  PlusCircleIcon,
   PlayIcon,
+  PlusCircleIcon,
   UsersIcon
 } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authState';
 
 export const QuickActions: React.FC = () => {
-  const { isAdmin } = useAuthStore();
+  const { userRole } = useAuthStore();
+  const isAdmin = userRole === 'admin';
 
   const adminActions = [
     {
@@ -53,7 +54,7 @@ export const QuickActions: React.FC = () => {
         <Gallery hasGutter minWidths={{ default: '200px' }}>
           {actions.map((action) => (
             <GalleryItem key={action.title}>
-              <Card isHoverable component="div">
+              <Card component="div">
                 <CardBody>
                   <Split hasGutter>
                     <SplitItem>{action.icon}</SplitItem>

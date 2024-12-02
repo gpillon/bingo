@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  PageSection,
+  Bullseye,
   Card,
   CardBody,
+  Label,
+  PageSection,
   Stack,
   StackItem,
   Title,
-  Label,
-  Bullseye,
 } from '@patternfly/react-core';
 import { TrophyIcon } from '@patternfly/react-icons';
 import { Game } from '../../store/gameState';
@@ -28,7 +28,19 @@ export const WinnerSection: React.FC<WinnerSectionProps> = ({ game }) => (
               </Title>
             </StackItem>
             <StackItem>
-              <Label color="yellow" isCompact>{game.winner?.username || "Peppe"}</Label>
+              {game.cinquinaCard && (
+                <Label color="green" isCompact>Cinquina: {game.cinquinaCard?.owner?.name || "Unknown"}</Label>
+              )}
+            </StackItem>
+            <StackItem>
+              {game.bingoCard && (
+                <Label color="yellow" isCompact>Bingo: {game.bingoCard?.owner?.name || "Unknown"}</Label>
+              )}
+            </StackItem>
+            <StackItem>
+              {game.miniBingoCard && (
+                <Label isCompact>Mini Bingo: {game.miniBingoCard?.owner?.name || "Unknown"}</Label>
+              )}
             </StackItem>
           </Stack>
         </Bullseye>

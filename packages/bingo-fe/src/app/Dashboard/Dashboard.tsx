@@ -22,7 +22,7 @@ import {
   TrendUpIcon,
 } from '@patternfly/react-icons';
 import { ChartDonut, ChartThemeColor } from '@patternfly/react-charts/victory';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 import { useGameStore } from '../store/gameState';
 import { useCardStore } from '../store/cardState';
 import { useHasRole } from '../store/authState';
@@ -184,8 +184,7 @@ const Dashboard: React.FC = () => {
                       <FlexItem align={{ default: 'alignRight' }}>
                         <Button
                           variant="link"
-                          component={Link}
-                          to={`/games/${game.id}`}
+                          component={(props: LinkProps) => <Link {...props} to={`/games/${game.id}`} />}
                         >
                           View
                         </Button>
@@ -208,8 +207,7 @@ const Dashboard: React.FC = () => {
                   <FlexItem>
                     <Button
                       variant="primary"
-                      component={Link}
-                      to="/games/new"
+                      component={(props: LinkProps) => <Link {...props} to="/games/new" />}
                     >
                       Create New Game
                     </Button>
@@ -217,8 +215,7 @@ const Dashboard: React.FC = () => {
                   <FlexItem>
                     <Button
                       variant="primary"
-                      component={Link}
-                      to="/admin/users/new"
+                      component={(props: LinkProps) => <Link {...props} to="/admin/users/new" />}
                     >
                       Create New User
                     </Button>
@@ -226,8 +223,7 @@ const Dashboard: React.FC = () => {
                   <FlexItem>
                     <Button
                       variant="secondary"
-                      component={Link}
-                      to="/admin"
+                      component={(props: LinkProps) => <Link {...props} to="/admin" />}
                     >
                       Admin Dashboard
                     </Button>

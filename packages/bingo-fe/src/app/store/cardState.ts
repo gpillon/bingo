@@ -13,7 +13,7 @@ interface CardState {
 }
 
 export interface BingoCard {
-  id: string;
+  id: number;
   date: string;
   gameId: string;
   owner: {
@@ -22,7 +22,7 @@ export interface BingoCard {
     email: string;
     name: string;
   }
-  numbers: number[];
+  numbers: number[][];
 }
 
 const getAuthHeader = () => {
@@ -48,11 +48,11 @@ export const useCardStore = create<CardState>((set) => ({
       if (!response.ok) throw new Error('Failed to fetch cards');
       const cards = await response.json();
       set({ userCards: cards, loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
-  fetchAllUserCards: async (gameId?: string) => {
+  fetchAllUserCards: async (gameId?: string): Promise<void> => {
     set({ loading: true, error: null });
     try {
       const response = await fetch(gameId ? `/api/cards?gameId=${gameId}` : '/api/cards', {
@@ -71,12 +71,10 @@ export const useCardStore = create<CardState>((set) => ({
         console.error('Received non-array response:', cards);
         throw new Error('Invalid response format');
       }
-
       set({ allUserCards: cards, loading: false });
-      return cards;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching cards:', error);
-      set({ error: error.message, loading: false });
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
@@ -96,8 +94,8 @@ export const useCardStore = create<CardState>((set) => ({
         userCards: [...state.userCards, newCard],
         loading: false
       }));
-    } catch (error) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },

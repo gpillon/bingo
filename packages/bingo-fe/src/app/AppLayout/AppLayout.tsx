@@ -30,7 +30,7 @@ interface IAppLayout {
 
 const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const history = useHistory();
-  const { logout } = useAuthStore();
+  const { logout, userRole } = useAuthStore();
 
   const handleLogout = () => {
     logout();
@@ -141,9 +141,13 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const Navigation = (
     <Nav id="nav-primary-simple">
       <NavList id="nav-list-simple">
-        {routes.map(
-          (route, idx) => route.label && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx)),
-        )}
+        {routes.map((route, idx) => {
+          // Skip admin routes for non-admin users; this is a temporary solution
+          if (route.label?.startsWith('Admin') && userRole !== 'admin') {
+            return null;
+          }
+          return route.label && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx));
+        })}
       </NavList>
     </Nav>
   );

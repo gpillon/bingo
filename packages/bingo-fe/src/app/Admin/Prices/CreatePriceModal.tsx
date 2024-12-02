@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
+  Alert,
+  Button,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Button,
-  Alert,
 } from '@patternfly/react-core';
 import { usePriceStore } from '../../store/priceState';
 import { PriceForm, PriceFormData } from './PriceForm';
@@ -16,11 +16,10 @@ interface CreatePriceModalProps {
 }
 
 export const CreatePriceModal: React.FC<CreatePriceModalProps> = ({ isOpen, onClose }) => {
-  const { createPrice, uploadPriceImage } = usePriceStore();
+  const { createPrice } = usePriceStore();
   const [formData, setFormData] = useState<PriceFormData>({
     name: '',
     description: '',
-    image: null
   });
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,15 +30,12 @@ export const CreatePriceModal: React.FC<CreatePriceModalProps> = ({ isOpen, onCl
 
     try {
       // First create the price
-      const newPrice = await createPrice({
+      await createPrice({
         name: formData.name,
         description: formData.description
       });
 
       // Then upload the image if one was selected
-      if (formData.image) {
-        await uploadPriceImage(newPrice.id, formData.image);
-      }
 
       onClose();
     } catch (err) {
@@ -58,7 +54,7 @@ export const CreatePriceModal: React.FC<CreatePriceModalProps> = ({ isOpen, onCl
       variant="medium"
       position="top"
     >
-      <ModalHeader title="Create New Price" id="create-price-modal-title" />
+      <ModalHeader title="Create New Price" />
       <ModalBody id="create-price-modal-body">
         {error && (
           <Alert variant="danger" title="Error creating price" isInline>
