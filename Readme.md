@@ -10,6 +10,12 @@ Welcome to GPS Tombola - the digital version of the traditional Italian Christma
 
 This isn't just any Tombola - it's a modern, cloud-native Tombola that runs on OpenShift. Because nothing says "Buon Natale" like containerized gaming! 🎅
 
+## 🚧 Todos
+
+- [ ] User Profile page (pass change, etc...)
+- [ ] enhance responsiveness
+- [ ] add translations with i18next
+
 ## ✨ Features
 
 - 🎮 Real-time multiplayer - Watch grandpa try to figure out how to unmute himself!
