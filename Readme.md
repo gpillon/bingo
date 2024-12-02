@@ -38,7 +38,7 @@ Want to deploy faster than your uncle devours Christmas dinner? Here you go:
 
 ```bash
 # Add our super-fancy Helm repo
-helm repo add bingo https://github.com/redhat-gss/bingo-helm
+helm repo add bingo https://github.com/gpillon/bingo-helm
 helm repo update
 # Deploy it like it's hot!
 helm install bingo-chart bingo/bingo
