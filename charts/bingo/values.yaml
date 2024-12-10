@@ -20,9 +20,14 @@ ingress:
   enabled: false
   className: "nginx"
   annotations: {}
-  hosts:
-    - host: bingo.example.com
+  hosts: # on openshift, leave empty to use the default host
+    - host: bingo.example.com 
       paths:
         - path: /
           pathType: Prefix
   tls: []
+
+# OpenShift specific configurations
+openshift:
+  # Force using Ingress even on OpenShift clusters
+  useIngress: false

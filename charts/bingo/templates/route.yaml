@@ -1,0 +1,26 @@
+{{- if and .Values.ingress.enabled (and (not .Values.openshift.useIngress) (Capabilities.APIVersions.Has "route.openshift.io/v1")) -}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "bingo.fullname" . }}
+  labels:
+    {{- include "bingo.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if and .Values.ingress.hosts (index .Values.ingress.hosts 0).host }}
+  host: {{ (index .Values.ingress.hosts 0).host }}
+  {{- end }}
+  to:
+    kind: Service
+    name: {{ include "bingo.fullname" . }}-frontend
+    weight: 100
+  port:
+    targetPort: http
+  {{- if .Values.ingress.tls }}
+  tls:
+    termination: edge
+  {{- end }}
+{{- end }} 
