@@ -1,4 +1,4 @@
-{{- if and .Values.ingress.enabled (and (not .Values.openshift.useIngress) (Capabilities.APIVersions.Has "route.openshift.io/v1")) -}}
+{{- if and .Values.ingress.enabled (and (not .Values.openshift.useIngress) (.Capabilities.APIVersions.Has "route.openshift.io/v1")) -}}
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
