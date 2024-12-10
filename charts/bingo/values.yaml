@@ -29,5 +29,5 @@ ingress:
 
 # OpenShift specific configurations
 openshift:
-  # Force using Ingress even on OpenShift clusters
+  # Force using Ingress on OpenShift clusters
   useIngress: false
