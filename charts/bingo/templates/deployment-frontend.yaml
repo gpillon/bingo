@@ -29,7 +29,7 @@ spec:
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d
             - name: nginx-client-temp
-              mountPath: /var/cache/nginx/client_temp
+              mountPath: /var/cache/nginx/
       volumes:
         - name: nginx-conf
           emptyDir: {}
