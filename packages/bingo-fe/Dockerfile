@@ -8,7 +8,7 @@ RUN npm install
 RUN npm run build
 
 # Production stage
-FROM nginx:alpine
+FROM registry.redhat.io/rhel9/nginx-124@sha256:8305d06fed422e3d8ef9493e4bfeb543625f146a16abfb30d5b10807e4ee8f25
 
 # Copy built assets from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
