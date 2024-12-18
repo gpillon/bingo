@@ -22,5 +22,6 @@ spec:
   {{- if .Values.ingress.tls }}
   tls:
     termination: edge
+    insecureEdgeTerminationPolicy: Redirect
   {{- end }}
 {{- end }} 
