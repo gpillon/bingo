@@ -40,10 +40,6 @@ RUN mkdir -p /etc/nginx/templates && \
     } \
 }' > /etc/nginx/templates/default.conf.template
 
-RUN chgrp -R root /var/cache/nginx /var/run /var/log/nginx && \
-    chmod -R 777 /var
-RUN sed -i.bak 's/^user/#user/' /etc/nginx/nginx.conf
-
 EXPOSE 8080
 
 # Usa l'entrypoint di default di nginx che processerà automaticamente i template
