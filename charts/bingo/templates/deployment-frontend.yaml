@@ -25,4 +25,13 @@ spec:
               value: {{ include "bingo.fullname" . }}-backend:3000
             - name: REACT_BACKEND_SERVER_URL
               value: http://{{ include "bingo.fullname" . }}-backend:3000
-              
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d
+            - name: nginx-client-temp
+              mountPath: /var/cache/nginx/client_temp
+      volumes:
+        - name: nginx-conf
+          emptyDir: {}
+        - name: nginx-client-temp
+          emptyDir: {}
