@@ -19,9 +19,7 @@ spec:
     weight: 100
   port:
     targetPort: http
-  {{- if .Values.ingress.tls }}
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
-  {{- end }}
 {{- end }} 
