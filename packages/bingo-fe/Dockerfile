@@ -14,7 +14,8 @@ FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Crea il template nella directory corretta
-RUN echo 'server { \
+RUN mkdir -p /etc/nginx/templates && \
+    echo 'server { \
     listen 8080; \
     client_max_body_size 5M; \
     server_name localhost; \
