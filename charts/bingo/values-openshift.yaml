@@ -1,0 +1,29 @@
+frontend:
+  repository: ghcr.io/gpillon/bingo-simulator-bingo-fe
+  tag: latest
+  socketServerUrl: http://my-bingo-backend:3000
+
+backend:
+  repository: ghcr.io/gpillon/bingo-simulator-bingo-be
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 8080
+
+storage:
+  persistance: true
+  size: 157286400 # 150Mi
+  # storageClass: standard
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts: []
+  tls: []
+
+# OpenShift specific configurations
+openshift:
+  # Force using Ingress on OpenShift clusters
+  useIngress: false
