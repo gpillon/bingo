@@ -13,9 +13,7 @@ FROM nginx:alpine
 # Copy built assets from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-ENV REACT_BACKEND_SERVER_URL=http://backend:3000
-
-# Create nginx configuration
+# Crea il template nella directory corretta
 RUN echo 'server { \
     listen 8080; \
     client_max_body_size 5M; \
@@ -26,28 +24,22 @@ RUN echo 'server { \
         try_files $uri $uri/ /index.html; \
     } \
     location /api { \
-        proxy_pass REACT_BACKEND_SERVER_URL_PLACEHOLDER; \
+        proxy_pass ${REACT_BACKEND_SERVER_URL}; \
         proxy_http_version 1.1; \
         proxy_set_header Upgrade $http_upgrade; \
         proxy_set_header Connection "upgrade"; \
         proxy_set_header Host $host; \
     } \
     location /socket.io { \
-        proxy_pass REACT_BACKEND_SERVER_URL_PLACEHOLDER; \
+        proxy_pass ${REACT_BACKEND_SERVER_URL}; \
         proxy_http_version 1.1; \
         proxy_set_header Upgrade $http_upgrade; \
         proxy_set_header Connection "upgrade"; \
         proxy_set_header Host $host; \
     } \
-}' > /etc/nginx/conf.d/default.conf
+}' > /etc/nginx/templates/default.conf.template
 
-# Expose port 8080
 EXPOSE 8080
 
-RUN printf '#!/bin/sh\n\
-sed -i "s|REACT_APP_SOCKET_SERVER_URL_PLACEHOLDER|$REACT_APP_SOCKET_HOST|g" /usr/share/nginx/html/static/js/*.js\n\
-sed -i "s|REACT_BACKEND_SERVER_URL_PLACEHOLDER|$REACT_BACKEND_SERVER_URL|g" /etc/nginx/conf.d/default.conf\n\
-nginx -g "daemon off;"\n' > /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
-
-# Use the shell script as the entrypoint
-CMD ["/docker-entrypoint.sh"]
+# Usa l'entrypoint di default di nginx che processerà automaticamente i template
+CMD ["nginx", "-g", "daemon off;"]
