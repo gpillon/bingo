@@ -12,8 +12,8 @@ This isn't just any Tombola - it's a modern, cloud-native Tombola that runs on O
 
 ## 🚧 Todos
 
-- [ ] User Profile page (pass change, etc...)
-- [ ] Enhance responsiveness
+- [x] User Profile page (pass change, etc...)
+- [x] Enhance responsiveness
 - [ ] Add translations with i18next
 - [ ] Optimize CI/CD pipeline on frontend, building the ReactAPP only 1 time both for amd64 and arm64
 
@@ -28,7 +28,7 @@ This isn't just any Tombola - it's a modern, cloud-native Tombola that runs on O
 ## 🛠 Tech Stack
 
 - **Frontend**: React + TypeScript + PatternFly 6 (because we're fancy)
-- **Backend**: Node.js + Express + PostgreSQL (the holy trinity)
+- **Backend**: NestJS + TypeScript + Typeorm (Just Love it)
 - **State Management**: Zustand (because Redux is too 2020)
 - **Deployment**: OpenShift + Helm (because we're enterprise-y)
 
